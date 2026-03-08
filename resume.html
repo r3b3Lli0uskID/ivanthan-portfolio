@@ -105,6 +105,17 @@
 
     .header-contact a { color: rgba(255,255,255,.8); text-decoration: none; }
 
+    .header-photo {
+      width: 90px;
+      height: 110px;
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: center top;
+      border: 2px solid var(--soft);
+      flex-shrink: 0;
+      align-self: center;
+    }
+
     /* ─── BODY (sidebar + main) ──────────────────── */
     .body {
       display: flex;
@@ -365,6 +376,7 @@
         <h1>Than Htet <span>(Ivan)</span></h1>
         <div class="header-title">Cybersecurity Professional &nbsp;|&nbsp; Healthcare IT Specialist</div>
       </div>
+      <img class="header-photo" src="photo.jpg" alt="Ivan Than" />
       <div class="header-contact">
         <div>📍 Singapore</div>
         <div>📱 +65 8755 3980</div>
