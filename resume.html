@@ -342,11 +342,23 @@
     .ref-title { font-size: 7.8pt; color: var(--muted); margin-top: 1px; }
     .ref-phone { font-size: 7.8pt; color: var(--navy2); margin-top: 2px; }
 
+    /* ─── PRINT COLOR PRESERVE ───────────────────── */
+    /* Force browsers to print background colors & images */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
     /* ─── PRINT ──────────────────────────────────── */
     @media print {
       body { background: none; }
-      .page { margin: 0; box-shadow: none; }
+      .page { margin: 0; box-shadow: none; width: 210mm; }
       .btn-group { display: none; }
+      .header { background: var(--navy) !important; }
+      .sidebar { background: var(--navy2) !important; }
+      .bar-bg { background: rgba(255,255,255,.15) !important; }
+      .bar-fill { background: var(--soft) !important; }
     }
 
     /* ─── ACTION BUTTONS ─────────────────────────── */
