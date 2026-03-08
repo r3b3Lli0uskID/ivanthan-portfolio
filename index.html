@@ -13,7 +13,7 @@
       --surface: #111827;
       --surface2: #1a2235;
       --border: #1f2d3d;
-      --accent: #3b82f6;
+      --accent: #1770b5;
       --accent2: #10b981;
       --yellow: #f59e0b;
       --warn: #ef4444;
@@ -81,6 +81,26 @@
     }
 
     @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── raifkaya.nl morph animation ─────────────────── */
+    @keyframes morph {
+      0%,100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25%     { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      50%     { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; }
+      75%     { border-radius: 67% 33% 47% 53% / 37% 20% 80% 63%; }
+    }
+
+    .morph-blob {
+      width: 220px; height: 220px;
+      background: linear-gradient(135deg, rgba(23,112,181,.25), rgba(139,92,246,.15));
+      border: 2px solid rgba(23,112,181,.35);
+      animation: morph 8s ease-in-out infinite, float 6s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      flex-shrink: 0;
+    }
 
     nav ul { display: flex; gap: 1.75rem; list-style: none; }
     nav a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
@@ -154,7 +174,7 @@
       line-height: 1.8;
     }
 
-    .t-prompt { color: #3b82f6; }
+    .t-prompt { color: #1770b5; }
     .t-cmd    { color: #f9fafb; }
     .t-comment{ color: #6b7280; }
     .t-output { color: #10b981; }
@@ -164,7 +184,7 @@
     .type-cursor {
       display: inline-block;
       width: 8px; height: 1em;
-      background: #3b82f6;
+      background: #1770b5;
       vertical-align: text-bottom;
       animation: blink 1s step-end infinite;
     }
@@ -174,8 +194,8 @@
       display: inline-flex;
       align-items: center;
       gap: .4rem;
-      background: rgba(59,130,246,.1);
-      border: 1px solid rgba(59,130,246,.25);
+      background: rgba(23,112,181,.1);
+      border: 1px solid rgba(23,112,181,.25);
       color: var(--accent);
       font-size: .75rem;
       font-weight: 600;
@@ -210,7 +230,7 @@
     h1 em {
       font-style: normal;
       color: transparent;
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      background: linear-gradient(90deg, #1770b5, #8b5cf6);
       -webkit-background-clip: text;
       background-clip: text;
     }
@@ -263,7 +283,7 @@
     }
 
     .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,.35); }
+    .btn-primary:hover { background: #1260a0; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(23,112,181,.35); }
     .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -338,7 +358,7 @@
       border-radius: 50%;
       background: var(--accent);
       border: 2px solid var(--bg);
-      box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+      box-shadow: 0 0 0 3px rgba(23,112,181,.2);
     }
 
     .tl-item:first-child .tl-dot {
@@ -396,14 +416,14 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      transition: border-color .25s, transform .25s, box-shadow .25s;
+      transition: border-color .5s ease-in-out, transform .5s ease-in-out, box-shadow .5s ease-in-out;
       cursor: default;
     }
 
     .project-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(59,130,246,.15);
+      box-shadow: 0 16px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(23,112,181,.15);
     }
 
     .project-icon {
@@ -433,8 +453,8 @@
       font-weight: 600;
       padding: .18rem .55rem;
       border-radius: 4px;
-      background: rgba(59,130,246,.1);
-      border: 1px solid rgba(59,130,246,.2);
+      background: rgba(23,112,181,.1);
+      border: 1px solid rgba(23,112,181,.2);
       color: var(--accent);
     }
 
@@ -457,7 +477,7 @@
       transition: border-color .2s;
     }
 
-    .skill-group:hover { border-color: rgba(59,130,246,.4); }
+    .skill-group:hover { border-color: rgba(23,112,181,.4); }
 
     .skill-group h4 {
       font-family: 'JetBrains Mono', monospace;
@@ -514,10 +534,10 @@
       display: flex;
       gap: 1rem;
       align-items: flex-start;
-      transition: border-color .2s, transform .2s;
+      transition: border-color .5s ease-in-out, transform .5s ease-in-out;
     }
 
-    .cert-card:hover { border-color: rgba(59,130,246,.4); transform: translateY(-2px); }
+    .cert-card:hover { border-color: rgba(23,112,181,.4); transform: translateY(-2px); }
 
     .cert-icon { font-size: 1.75rem; flex-shrink: 0; }
 
@@ -548,7 +568,7 @@
       border-radius: 10px;
       padding: 1.25rem;
       text-decoration: none;
-      transition: border-color .2s, transform .2s;
+      transition: border-color .5s ease-in-out, transform .5s ease-in-out;
       display: block;
     }
 
@@ -637,9 +657,14 @@
     </div>
   </div>
 
-  <!-- Terminal window illustration -->
-  <div class="hero-right">
-    <div class="terminal-window">
+  <!-- Hero right: morph blob + terminal -->
+  <div class="hero-right" style="display:flex;flex-direction:column;gap:1.25rem;align-items:center;">
+
+    <!-- Morphing blob (raifkaya.nl inspired) -->
+    <div class="morph-blob">🛡️</div>
+
+    <!-- Terminal window -->
+    <div class="terminal-window" style="width:100%">
       <div class="terminal-bar">
         <div class="dot red"></div>
         <div class="dot yellow"></div>
@@ -833,13 +858,14 @@
 
     <div class="project-card reveal reveal-delay-3">
       <span class="project-icon">🏥</span>
-      <h3>Healthcare Infrastructure Security</h3>
-      <div class="project-result">✓ 11 years operational</div>
-      <p>Securing DICOM/HL7 infrastructure at Parkway Hospitals and Philips Electronics for MINDEF and SingHealth. PHI protection, Nessus scanning, OS hardening, and PACS subnet segmentation.</p>
+      <h3>Healthcare IT — 11 Years of Infrastructure</h3>
+      <div class="project-result">✓ SingHealth · MINDEF · Myanmar hospitals</div>
+      <p>Windows Server 2008/2012/2019 (hardware + Hyper-V) for DICOM imaging servers. Full installation of X-Ray, DR, CR, and Ultrasound systems across Myanmar. Nessus scanning and OS hardening for defence-grade clients.</p>
       <div class="tag-row">
-        <span class="tag">DICOM Security</span>
+        <span class="tag">DICOM / HL7</span>
+        <span class="tag">Windows Server</span>
+        <span class="tag">Hyper-V</span>
         <span class="tag">Nessus</span>
-        <span class="tag">PHI / HIPAA</span>
         <span class="tag green">MINDEF · SingHealth</span>
       </div>
     </div>
@@ -1068,7 +1094,7 @@
       nodes[i].update();
       ctx.beginPath();
       ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(59,130,246,.5)';
+      ctx.fillStyle = 'rgba(23,112,181,.5)';
       ctx.fill();
 
       for (let j = i + 1; j < nodes.length; j++) {
@@ -1079,7 +1105,7 @@
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(59,130,246,${0.18 * (1 - d / maxDist)})`;
+          ctx.strokeStyle = `rgba(23,112,181,${0.18 * (1 - d / maxDist)})`;
           ctx.lineWidth = .8;
           ctx.stroke();
         }
