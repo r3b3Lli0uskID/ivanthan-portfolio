@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ivan Than — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── VARIABLES ──────────────────────────────── */
+    :root {
+      --navy:   #1F3763;
+      --navy2:  #2F5496;
+      --yellow: #FACD05;
+      --white:  #ffffff;
+      --light:  #f4f6fb;
+      --text:   #2c3140;
+      --muted:  #5c6070;
+      --border: #dde3ef;
+      --sidebar-w: 240px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', 'Times New Roman', serif;
+      background: #c8ccd6;
+      color: var(--text);
+      font-size: 9.5pt;
+      line-height: 1.5;
+    }
+
+    /* ─── PAGE WRAPPER ───────────────────────────── */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 20px auto;
+      background: var(--white);
+      box-shadow: 0 4px 32px rgba(0,0,0,.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    .header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 28px 32px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--yellow);
+    }
+
+    /* subtle geometric accent */
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .header-name h1 {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 30pt;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .header-name h1 span { color: var(--yellow); }
+
+    .header-title {
+      font-size: 9pt;
+      font-weight: 300;
+      color: rgba(255,255,255,.75);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .header-contact {
+      text-align: right;
+      font-size: 8.5pt;
+      color: rgba(255,255,255,.8);
+      line-height: 1.7;
+    }
+
+    .header-contact a { color: rgba(255,255,255,.8); text-decoration: none; }
+
+    /* ─── BODY (sidebar + main) ──────────────────── */
+    .body {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ─── SIDEBAR ────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--navy2);
+      color: var(--white);
+      padding: 24px 20px;
+    }
+
+    .sb-section { margin-bottom: 22px; }
+
+    .sb-label {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--yellow);
+      border-bottom: 1px solid rgba(255,255,255,.15);
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* skills with bar */
+    .skill-row {
+      margin-bottom: 7px;
+    }
+
+    .skill-name {
+      font-size: 8.2pt;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 3px;
+    }
+
+    .skill-level {
+      font-size: 7pt;
+      color: rgba(255,255,255,.5);
+      float: right;
+    }
+
+    .bar-bg {
+      height: 3px;
+      background: rgba(255,255,255,.15);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--yellow);
+      border-radius: 99px;
+    }
+
+    /* cert list in sidebar */
+    .cert-list { list-style: none; }
+    .cert-list li {
+      font-size: 7.8pt;
+      color: rgba(255,255,255,.85);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      line-height: 1.3;
+    }
+
+    .cert-list li:last-child { border-bottom: none; }
+
+    .cert-year {
+      display: block;
+      font-size: 7pt;
+      color: var(--yellow);
+      margin-top: 1px;
+    }
+
+    /* lang */
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 8pt;
+      color: rgba(255,255,255,.85);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .lang-level {
+      font-size: 7pt;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ─── MAIN ───────────────────────────────────── */
+    .main {
+      flex: 1;
+      padding: 24px 28px;
+    }
+
+    /* ─── SECTION HEADER ─────────────────────────── */
+    .section-hd {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 10.5pt;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--navy);
+      border-bottom: 2px solid var(--yellow);
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      margin-top: 18px;
+    }
+
+    .section-hd:first-child { margin-top: 0; }
+
+    /* ─── PROFILE SUMMARY ────────────────────────── */
+    .profile-box {
+      background: var(--light);
+      border-left: 3px solid var(--yellow);
+      padding: 10px 14px;
+      font-size: 8.8pt;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+
+    /* ─── WORK ENTRY ─────────────────────────────── */
+    .work-entry { margin-bottom: 14px; }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2px;
+    }
+
+    .work-employer {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 9.5pt;
+      font-weight: 400;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .work-period {
+      font-size: 7.8pt;
+      color: var(--muted);
+      white-space: nowrap;
+      margin-left: 8px;
+    }
+
+    .work-role {
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: var(--navy2);
+      margin-bottom: 5px;
+    }
+
+    .work-entry ul {
+      padding-left: 12px;
+      margin-top: 4px;
+    }
+
+    .work-entry li {
+      font-size: 8.4pt;
+      color: var(--text);
+      margin-bottom: 2.5px;
+      line-height: 1.45;
+    }
+
+    /* ─── PROJECTS ───────────────────────────────── */
+    .proj-entry { margin-bottom: 10px; }
+
+    .proj-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .proj-name {
+      font-weight: 700;
+      font-size: 8.8pt;
+      color: var(--navy2);
+    }
+
+    .proj-period {
+      font-size: 7.8pt;
+      color: var(--muted);
+    }
+
+    .proj-entry ul {
+      padding-left: 12px;
+      margin-top: 3px;
+    }
+
+    .proj-entry li {
+      font-size: 8.2pt;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    /* ─── REFEREES ───────────────────────────────── */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .ref-card {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px 10px;
+    }
+
+    .ref-name  { font-weight: 700; font-size: 8.4pt; color: var(--navy); }
+    .ref-title { font-size: 7.8pt; color: var(--muted); margin-top: 1px; }
+    .ref-phone { font-size: 7.8pt; color: var(--navy2); margin-top: 2px; }
+
+    /* ─── PRINT ──────────────────────────────────── */
+    @media print {
+      body { background: none; }
+      .page { margin: 0; box-shadow: none; }
+      .print-btn { display: none; }
+    }
+
+    /* ─── PRINT BUTTON ───────────────────────────── */
+    .print-btn {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--navy);
+      color: var(--yellow);
+      border: none;
+      padding: .7rem 1.4rem;
+      border-radius: 6px;
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      letter-spacing: .06em;
+      transition: background .2s;
+    }
+
+    .print-btn:hover { background: var(--navy2); }
+  </style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">PRINT / SAVE PDF</button>
+
+<div class="page">
+
+  <!-- ─── HEADER ──────────────────────────────────── -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-name">
+        <h1>Than Htet <span>(Ivan)</span></h1>
+        <div class="header-title">Cybersecurity Professional &nbsp;|&nbsp; Healthcare IT Specialist</div>
+      </div>
+      <div class="header-contact">
+        <div>📍 Singapore</div>
+        <div>📱 +65 8755 3980</div>
+        <div><a href="mailto:ivan@ivanthan.uk">ivan@ivanthan.uk</a></div>
+        <div><a href="https://linkedin.com/in/ivan3890">linkedin.com/in/ivan3890</a></div>
+        <div><a href="https://ivanthan.uk">ivanthan.uk</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BODY ─────────────────────────────────────── -->
+  <div class="body">
+
+    <!-- ─── SIDEBAR ──────────────────────────────── -->
+    <div class="sidebar">
+
+      <!-- Certifications -->
+      <div class="sb-section">
+        <div class="sb-label">Certifications</div>
+        <ul class="cert-list">
+          <li>
+            Certified Ethical Hacker (CEH)
+            <span class="cert-year">In Progress · 2025</span>
+          </li>
+          <li>
+            Heap Masterclass — Exploit Dev
+            <span class="cert-year">Corelan × Redfacers · Jan 2026</span>
+          </li>
+          <li>
+            MCP — SQL Database 2005
+            <span class="cert-year">Microsoft</span>
+          </li>
+          <li>
+            MTA: Windows Server Admin
+            <span class="cert-year">NICF · Microsoft</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Skills -->
+      <div class="sb-section">
+        <div class="sb-label">Security Tools</div>
+
+        <div class="skill-row">
+          <div class="skill-name">nmap / gobuster / ffuf <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Nessus (Vuln Scanning) <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Metasploit Framework <span class="skill-level">Intermediate</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:72%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Burp Suite <span class="skill-level">Intermediate</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:68%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Hydra / hashcat <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Kali Linux <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">VMware / Proxmox <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Bash / Shell Scripting <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Python (scripting) <span class="skill-level">Intermediate</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:55%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">SQL <span class="skill-level">Advanced</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
+        </div>
+      </div>
+
+      <!-- Domain expertise -->
+      <div class="sb-section">
+        <div class="sb-label">Domain Expertise</div>
+        <ul class="cert-list">
+          <li>DICOM Protocol Security</li>
+          <li>RIS / PACS Administration</li>
+          <li>Medical Device Security</li>
+          <li>PHI Protection / HIPAA</li>
+          <li>HL7 Integration</li>
+          <li>VAPT Report Writing</li>
+          <li>CVSS 3.1 Scoring</li>
+        </ul>
+      </div>
+
+      <!-- Education -->
+      <div class="sb-section">
+        <div class="sb-label">Education</div>
+        <ul class="cert-list">
+          <li>
+            Higher Diploma in IT
+            <span class="cert-year">Major in Web Development</span>
+          </li>
+          <li>
+            Bachelor of Arts
+            <span class="cert-year">Major in English</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Language -->
+      <div class="sb-section">
+        <div class="sb-label">Language</div>
+        <div class="lang-item">English<span class="lang-level">Fluent</span></div>
+        <div class="lang-item">Burmese<span class="lang-level">Native</span></div>
+      </div>
+
+      <!-- Availability -->
+      <div class="sb-section">
+        <div class="sb-label">Availability</div>
+        <div style="font-size:8pt;color:rgba(255,255,255,.8);">Immediate</div>
+      </div>
+
+    </div><!-- /sidebar -->
+
+    <!-- ─── MAIN ──────────────────────────────────── -->
+    <div class="main">
+
+      <!-- Profile -->
+      <div class="section-hd">Profile</div>
+      <div class="profile-box">
+        Experienced IT professional with 11+ years managing high-availability healthcare imaging infrastructure
+        (RIS/PACS) for tier-1 clients including SingHealth and MINDEF Singapore, now transitioning into
+        Cybersecurity Operations. Strong track record in PHI protection, DICOM security, OS hardening, and
+        Nessus-based vulnerability management. Currently advancing offensive security skills through CEH training,
+        hands-on CTF engagements (TryHackMe), and an internship at Redfacers. Seeking a Junior Security Analyst
+        or Junior Penetration Tester role where domain expertise in regulated environments is a differentiator.
+      </div>
+
+      <!-- Work History -->
+      <div class="section-hd">Work History</div>
+
+      <div class="work-entry">
+        <div class="work-header">
+          <div class="work-employer">Redfacers</div>
+          <div class="work-period">2026 – Present · Singapore</div>
+        </div>
+        <div class="work-role">Cybersecurity Intern</div>
+        <ul>
+          <li>Participating in real-world cybersecurity projects and assessments under senior practitioners</li>
+          <li>Applying offensive security skills from CEH training and CTF engagements in professional context</li>
+          <li>Completed Corelan Heap Masterclass (heap overflow, use-after-free, advanced Windows exploitation)</li>
+        </ul>
+      </div>
+
+      <div class="work-entry">
+        <div class="work-header">
+          <div class="work-employer">Parkway Hospitals Singapore</div>
+          <div class="work-period">Sep 2023 – Sep 2025</div>
+        </div>
+        <div class="work-role">Imaging IT Specialist</div>
+        <ul>
+          <li>Managed critical radiology imaging infrastructure (Vue RIS/PACS, Infinitt CPACS) at 99% uptime across multiple hospital sites</li>
+          <li>Led secure rollout of clinical AI platforms: Sensecare AI, Annalise AI, Teamplay AI</li>
+          <li>Implemented authentication and authorisation policies for 200+ radiology staff</li>
+          <li>Monitored DICOM network logs for anomalies; executed patch management and vulnerability remediation</li>
+        </ul>
+      </div>
+
+      <div class="work-entry">
+        <div class="work-header">
+          <div class="work-employer">Philips Electronics Singapore — HCIS ASEAN</div>
+          <div class="work-period">Aug 2019 – Apr 2022</div>
+        </div>
+        <div class="work-role">Field Service Engineer</div>
+        <ul>
+          <li>Managed mission-critical healthcare IT for SingHealth and MINDEF (Singapore Ministry of Defence)</li>
+          <li>Executed Nessus vulnerability scans and Windows OS hardening for RIS/PACS servers in secure defence environments</li>
+          <li>Root cause analysis and resolution for complex enterprise imaging system failures</li>
+        </ul>
+      </div>
+
+      <div class="work-entry">
+        <div class="work-header">
+          <div class="work-employer">Carestream Health Singapore</div>
+          <div class="work-period">Nov 2018 – Jul 2019</div>
+        </div>
+        <div class="work-role">Service Support Executive</div>
+        <ul>
+          <li>RIS/PACS server installation, L1/L2 support, and UAT management for radiology imaging systems</li>
+        </ul>
+      </div>
+
+      <div class="work-entry">
+        <div class="work-header">
+          <div class="work-employer">Biz-Partner Group Co., Ltd — Myanmar</div>
+          <div class="work-period">Feb 2015 – Sep 2018</div>
+        </div>
+        <div class="work-role">Project Manager / Senior Service Engineer</div>
+        <ul>
+          <li>Led healthcare IT solution deployments from kick-off to client acceptance across Myanmar</li>
+          <li>Serviced medical imaging equipment (DR, CR, X-Ray, Ultrasound) with EMR/PACS integration via DICOM/HL7</li>
+          <li>Managed cross-functional project teams and coordinated vendor relationships</li>
+        </ul>
+      </div>
+
+      <!-- Key Projects -->
+      <div class="section-hd">Key Projects</div>
+
+      <div class="proj-entry">
+        <div class="proj-header">
+          <div class="proj-name">TryHackMe CTF Engagements — HackPark &amp; Mr. Robot</div>
+          <div class="proj-period">Feb–Mar 2026</div>
+        </div>
+        <ul>
+          <li>HackPark: Exploited CVE-2019-6714 (BlogEngine.NET RCE) via Metasploit; escalated to SYSTEM via insecure scheduled task (WinPEAS)</li>
+          <li>Mr. Robot: WordPress brute force → theme editor PHP reverse shell → MD5 crack → SUID nmap privesc to root</li>
+          <li>Produced full VAPT reports for both targets: 8 findings, CVSS 3.1 vectors, evidence, remediation guidance</li>
+        </ul>
+      </div>
+
+      <div class="proj-entry">
+        <div class="proj-header">
+          <div class="proj-name">Home Cybersecurity Lab &amp; Automation Server</div>
+          <div class="proj-period">Sep 2025 – Present</div>
+        </div>
+        <ul>
+          <li>Built Proxmox hypervisor on Dell OptiPlex with Kali Linux VM for penetration testing and malware analysis</li>
+          <li>Deployed self-hosted n8n automation server via Docker with Cloudflare Tunnel for secure remote access</li>
+        </ul>
+      </div>
+
+      <!-- Referees -->
+      <div class="section-hd">Referees</div>
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-name">Mr. Aung Kean Boon Jonathan</div>
+          <div class="ref-title">Asst Manager, Parkway Radiology</div>
+          <div class="ref-phone">+65 9010 2680</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-name">Mr. Arshad Jamal</div>
+          <div class="ref-title">Service Manager, Philips Electronics SG</div>
+          <div class="ref-phone">+65 9026 3768</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-name">Mr. Sithu Aung</div>
+          <div class="ref-title">CEO, Biz-Partner Group Co., Ltd</div>
+          <div class="ref-phone">+95 9513 6284</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-name">Ms. Aung Aung Khine</div>
+          <div class="ref-title">GM, SC Auto Industries (S) Pte Ltd</div>
+          <div class="ref-phone">+65 9853 6722</div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /body -->
+</div><!-- /page -->
+
+</body>
+</html>

@@ -4,37 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ivan Than — Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #30363d;
-      --accent: #58a6ff;
-      --accent2: #3fb950;
-      --warn: #f85149;
-      --muted: #8b949e;
-      --text: #e6edf3;
-      --heading: #f0f6fc;
+      --bg: #0a0e17;
+      --surface: #111827;
+      --surface2: #1a2235;
+      --border: #1f2d3d;
+      --accent: #3b82f6;
+      --accent2: #10b981;
+      --yellow: #f59e0b;
+      --warn: #ef4444;
+      --muted: #6b7280;
+      --text: #d1d5db;
+      --heading: #f9fafb;
+      --navy: #1F3763;
+      --navy2: #2F5496;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── CANVAS BACKGROUND ─────────────────────────── */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.35;
+      pointer-events: none;
     }
 
     /* ─── NAV ─────────────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(13,17,23,.95);
+      background: rgba(10,14,23,.92);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
       z-index: 100;
       display: flex;
       align-items: center;
@@ -44,316 +61,479 @@
     }
 
     .nav-brand {
-      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
       color: var(--heading);
-      font-size: 1rem;
+      font-size: .95rem;
       text-decoration: none;
-    }
-
-    .nav-brand span { color: var(--accent); }
-
-    nav ul {
       display: flex;
-      gap: 1.5rem;
-      list-style: none;
+      align-items: center;
+      gap: .5rem;
     }
 
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: .875rem;
-      transition: color .2s;
+    .nav-brand .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
     }
 
+    @keyframes blink { 50% { opacity: 0; } }
+
+    nav ul { display: flex; gap: 1.75rem; list-style: none; }
+    nav a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
     nav a:hover { color: var(--text); }
 
-    /* ─── HERO ────────────────────────────────────────── */
+    /* ─── HERO ─────────────────────────────────────────── */
     .hero {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: flex;
       align-items: center;
       padding: 80px 2rem 4rem;
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
+      gap: 4rem;
     }
 
-    .hero-content { max-width: 680px; }
+    .hero-left { flex: 1; max-width: 620px; }
 
-    .hero-badge {
+    .hero-right {
+      flex-shrink: 0;
+      width: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* terminal window SVG */
+    .terminal-window {
+      width: 100%;
+      background: #0d1117;
+      border-radius: 12px;
+      border: 1px solid #30363d;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .terminal-bar {
+      background: #161b22;
+      padding: .6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      border-bottom: 1px solid #30363d;
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.red   { background: #ff5f57; }
+    .dot.yellow{ background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .terminal-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      color: #6b7280;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .terminal-body {
+      padding: 1.25rem 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      line-height: 1.8;
+    }
+
+    .t-prompt { color: #3b82f6; }
+    .t-cmd    { color: #f9fafb; }
+    .t-comment{ color: #6b7280; }
+    .t-output { color: #10b981; }
+    .t-warn   { color: #f59e0b; }
+    .t-path   { color: #a78bfa; }
+
+    .type-cursor {
       display: inline-block;
-      background: rgba(88,166,255,.1);
-      border: 1px solid rgba(88,166,255,.3);
+      width: 8px; height: 1em;
+      background: #3b82f6;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ─── HERO TEXT ──────────────────────────────────── */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(59,130,246,.1);
+      border: 1px solid rgba(59,130,246,.25);
       color: var(--accent);
       font-size: .75rem;
       font-weight: 600;
-      letter-spacing: .08em;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      padding: .25rem .75rem;
+      padding: .3rem .9rem;
       border-radius: 99px;
       margin-bottom: 1.5rem;
+      animation: fadeDown .6s ease both;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent2);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.4); }
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
-      font-weight: 700;
+      font-family: 'Fjalla One', sans-serif;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
       color: var(--heading);
-      line-height: 1.15;
+      line-height: 1.1;
       margin-bottom: 1rem;
+      animation: fadeDown .7s .1s ease both;
     }
 
-    h1 span { color: var(--accent); }
+    h1 em {
+      font-style: normal;
+      color: transparent;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--muted);
       margin-bottom: 2rem;
-      max-width: 560px;
+      max-width: 520px;
+      animation: fadeDown .8s .2s ease both;
     }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      animation: fadeDown .9s .3s ease both;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: left; }
+    .stat-num {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 1.75rem;
+      color: var(--heading);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 
     .hero-cta {
       display: flex;
-      gap: 1rem;
+      gap: .75rem;
       flex-wrap: wrap;
+      animation: fadeDown 1s .4s ease both;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: .5rem;
-      padding: .6rem 1.25rem;
+      gap: .4rem;
+      padding: .65rem 1.3rem;
       border-radius: 6px;
-      font-size: .9rem;
+      font-size: .875rem;
       font-weight: 600;
       text-decoration: none;
-      transition: opacity .2s;
+      transition: all .2s;
       cursor: pointer;
+      border: none;
     }
 
-    .btn:hover { opacity: .85; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,.35); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-    .btn-primary {
-      background: var(--accent);
-      color: #0d1117;
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
+    /* ─── REVEAL ON SCROLL ───────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ─── DIVIDER ─────────────────────────────────────── */
+    .divider { border: none; border-top: 1px solid var(--border); }
 
     /* ─── SECTIONS ────────────────────────────────────── */
     section {
-      max-width: 900px;
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 5rem 2rem;
     }
 
     .section-label {
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .1em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: .5rem;
+      margin-bottom: .4rem;
     }
 
+    .section-label::before { content: '// '; color: var(--muted); }
+
     h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 1.9rem;
       color: var(--heading);
       margin-bottom: 2.5rem;
     }
 
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
+    /* ─── TIMELINE (Experience) ───────────────────────── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
     }
 
-    /* ─── CARDS ───────────────────────────────────────── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.5rem;
+    .tl-item {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2.5rem;
     }
 
-    .card + .card { margin-top: 1rem; }
+    .tl-dot {
+      position: absolute;
+      left: -1.625rem; top: 6px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+    }
 
-    .card-header {
+    .tl-item:first-child .tl-dot {
+      background: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(16,185,129,.2), 0 0 12px rgba(16,185,129,.4);
+      animation: glowGreen 2s ease infinite;
+    }
+
+    @keyframes glowGreen {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(16,185,129,.2), 0 0 12px rgba(16,185,129,.3); }
+      50% { box-shadow: 0 0 0 3px rgba(16,185,129,.3), 0 0 20px rgba(16,185,129,.6); }
+    }
+
+    .tl-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: .5rem;
       flex-wrap: wrap;
-      gap: .5rem;
+      gap: .4rem;
+      margin-bottom: .25rem;
     }
 
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--heading);
-    }
-
-    .card .company {
-      font-size: .875rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .card .period {
-      font-size: .8rem;
+    .tl-company { font-size: .8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    .tl-role { font-size: 1.05rem; font-weight: 600; color: var(--heading); }
+    .tl-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
       color: var(--muted);
       white-space: nowrap;
     }
 
-    .card p, .card li {
-      font-size: .9rem;
-      color: var(--muted);
+    .tl-body { margin-top: .75rem; }
+
+    .tl-body ul {
+      padding-left: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
     }
 
-    .card ul {
-      margin-top: .75rem;
-      padding-left: 1.25rem;
-    }
-
-    .card li { margin-bottom: .25rem; }
+    .tl-body li { font-size: .9rem; color: var(--muted); }
+    .tl-body p  { font-size: .9rem; color: var(--muted); }
 
     /* ─── PROJECT GRID ────────────────────────────────── */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1rem;
     }
 
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem;
+      border-radius: 10px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      transition: border-color .2s;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      cursor: default;
     }
 
-    .project-card:hover { border-color: var(--accent); }
-
-    .project-card h3 {
-      font-size: .95rem;
-      font-weight: 600;
-      color: var(--heading);
-      margin-bottom: .5rem;
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(59,130,246,.15);
     }
 
-    .project-card p {
-      font-size: .85rem;
-      color: var(--muted);
-      flex: 1;
+    .project-icon {
+      font-size: 2rem;
       margin-bottom: 1rem;
+      display: block;
     }
 
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .4rem;
+    .project-card h3 { font-size: 1rem; font-weight: 600; color: var(--heading); margin-bottom: .5rem; }
+    .project-card p  { font-size: .855rem; color: var(--muted); flex: 1; margin-bottom: 1rem; }
+
+    .project-result {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--accent2);
+      font-weight: 600;
+      margin-bottom: .75rem;
     }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: .35rem; }
 
     .tag {
-      font-size: .7rem;
+      font-size: .68rem;
       font-weight: 600;
-      padding: .15rem .5rem;
+      padding: .18rem .55rem;
       border-radius: 4px;
-      background: rgba(88,166,255,.1);
-      border: 1px solid rgba(88,166,255,.2);
+      background: rgba(59,130,246,.1);
+      border: 1px solid rgba(59,130,246,.2);
       color: var(--accent);
     }
 
-    .tag.green {
-      background: rgba(63,185,80,.1);
-      border-color: rgba(63,185,80,.2);
-      color: var(--accent2);
-    }
-
-    .tag.red {
-      background: rgba(248,81,73,.1);
-      border-color: rgba(248,81,73,.2);
-      color: var(--warn);
-    }
+    .tag.green { background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.2); color: var(--accent2); }
+    .tag.yellow { background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); color: var(--yellow); }
+    .tag.purple { background: rgba(139,92,246,.1); border-color: rgba(139,92,246,.2); color: #a78bfa; }
 
     /* ─── SKILLS ──────────────────────────────────────── */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1rem;
     }
 
     .skill-group {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 1.25rem;
+      transition: border-color .2s;
     }
+
+    .skill-group:hover { border-color: rgba(59,130,246,.4); }
 
     .skill-group h4 {
-      font-size: .8rem;
-      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 600;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: .06em;
-      margin-bottom: .75rem;
+      letter-spacing: .08em;
+      margin-bottom: .9rem;
     }
 
-    .skill-group ul {
-      list-style: none;
-      padding: 0;
-    }
+    .skill-group ul { list-style: none; }
 
-    .skill-group li {
-      font-size: .875rem;
-      color: var(--muted);
-      padding: .2rem 0;
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .3rem 0;
       border-bottom: 1px solid var(--border);
+      font-size: .85rem;
+      color: var(--text);
     }
 
-    .skill-group li:last-child { border-bottom: none; }
+    .skill-item:last-child { border-bottom: none; }
+
+    .skill-bar-wrap {
+      width: 60px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      border-radius: 99px;
+      width: 0;
+      transition: width 1.2s ease;
+    }
 
     /* ─── CERTS ───────────────────────────────────────── */
     .cert-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 1rem;
     }
 
     .cert-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color .2s, transform .2s;
     }
 
-    .cert-card .cert-status {
-      font-size: .7rem;
+    .cert-card:hover { border-color: rgba(59,130,246,.4); transform: translateY(-2px); }
+
+    .cert-icon { font-size: 1.75rem; flex-shrink: 0; }
+
+    .cert-status {
+      font-size: .68rem;
       font-weight: 700;
       letter-spacing: .06em;
       text-transform: uppercase;
       color: var(--accent2);
-      margin-bottom: .4rem;
+      margin-bottom: .3rem;
     }
 
-    .cert-card .cert-status.inprogress { color: #d29922; }
+    .cert-status.inprogress { color: var(--yellow); }
 
-    .cert-card h4 {
-      font-size: .9rem;
-      font-weight: 600;
-      color: var(--heading);
-      margin-bottom: .25rem;
-    }
-
-    .cert-card p {
-      font-size: .8rem;
-      color: var(--muted);
-    }
+    .cert-card h4 { font-size: .9rem; font-weight: 600; color: var(--heading); margin-bottom: .2rem; }
+    .cert-card p  { font-size: .8rem; color: var(--muted); }
 
     /* ─── CONTACT ─────────────────────────────────────── */
     .contact-grid {
@@ -365,31 +545,21 @@
     .contact-item {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 1.25rem;
       text-decoration: none;
-      transition: border-color .2s;
+      transition: border-color .2s, transform .2s;
+      display: block;
     }
 
-    .contact-item:hover { border-color: var(--accent); }
+    .contact-item:hover { border-color: var(--accent); transform: translateY(-2px); }
 
-    .contact-item .label {
-      font-size: .7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--muted);
-      margin-bottom: .4rem;
-    }
-
-    .contact-item .value {
-      font-size: .9rem;
-      color: var(--heading);
-      font-weight: 500;
-    }
+    .contact-item .label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .4rem; }
+    .contact-item .value { font-size: .9rem; color: var(--heading); font-weight: 500; }
 
     /* ─── FOOTER ──────────────────────────────────────── */
     footer {
+      position: relative; z-index: 1;
       text-align: center;
       padding: 2rem;
       color: var(--muted);
@@ -397,18 +567,29 @@
       border-top: 1px solid var(--border);
     }
 
+    .footer-mono {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+    }
+
     /* ─── RESPONSIVE ──────────────────────────────────── */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; gap: 2rem; }
+      .hero-right { width: 100%; max-width: 360px; }
       nav ul { display: none; }
-      .hero { padding-top: 80px; }
     }
   </style>
 </head>
 <body>
 
+<!-- Animated network background -->
+<canvas id="bg-canvas"></canvas>
+
 <!-- ─── NAV ─────────────────────────────────────────── -->
 <nav>
-  <a class="nav-brand" href="#"><span>&gt;</span> Ivan Than</a>
+  <a class="nav-brand" href="#">
+    ivan@portfolio:~<span class="cursor"></span>
+  </a>
   <ul>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -420,17 +601,54 @@
 
 <!-- ─── HERO ─────────────────────────────────────────── -->
 <div class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">Open to Work · Junior Security Analyst / Penetration Tester</div>
-    <h1>Than Htet <span>(Ivan)</span><br />Cybersecurity Professional</h1>
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Open to Work · Junior Security Analyst / Penetration Tester
+    </div>
+
+    <h1>Than Htet <em>(Ivan)</em><br />Cybersecurity Professional</h1>
+
     <p class="hero-sub">
-      11+ years in healthcare IT. Now building expertise in penetration testing, vulnerability assessment,
-      and security operations. Currently interning at Redfacers and studying CEH at MAGES Institute.
+      11+ years in healthcare IT operations. Now applying that deep systems knowledge
+      to penetration testing, vulnerability assessment, and security operations.
+      Currently interning at Redfacers and advancing through CEH at MAGES Institute.
     </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" data-count="11">0<span>+</span></div>
+        <div class="stat-label">Years in IT</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="4">0</div>
+        <div class="stat-label">Completed CTFs</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-label">VAPT Findings</div>
+      </div>
+    </div>
+
     <div class="hero-cta">
       <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-outline" href="resume.html" target="_blank">Resume</a>
       <a class="btn btn-outline" href="https://github.com/r3b3Lli0uskID" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn btn-outline" href="mailto:ivan@ivanthan.uk">Contact Me</a>
+    </div>
+  </div>
+
+  <!-- Terminal window illustration -->
+  <div class="hero-right">
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <span class="terminal-title">terminal — kali@ivan</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <!-- filled by JS typewriter -->
+      </div>
     </div>
   </div>
 </div>
@@ -439,79 +657,99 @@
 
 <!-- ─── EXPERIENCE ────────────────────────────────────── -->
 <section id="experience">
-  <div class="section-label">Career</div>
-  <h2>Professional Experience</h2>
-
-  <div class="card">
-    <div class="card-header">
-      <div>
-        <div class="company">Redfacers</div>
-        <h3>Cybersecurity Intern</h3>
-      </div>
-      <div class="period">2026 – Present · Singapore</div>
-    </div>
-    <ul>
-      <li>Participating in real-world cybersecurity projects and security assessments</li>
-      <li>Applying offensive security techniques learned through CEH training and CTF engagements</li>
-      <li>Completed Corelan Heap Masterclass (professional exploit development) under Redfacers programme</li>
-    </ul>
+  <div class="reveal">
+    <div class="section-label">career</div>
+    <h2>Professional Experience</h2>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <div>
-        <div class="company">Parkway Hospitals Singapore</div>
-        <h3>Imaging IT Specialist</h3>
-      </div>
-      <div class="period">Sep 2023 – Sep 2025 · Singapore</div>
-    </div>
-    <ul>
-      <li>Managed critical radiology imaging infrastructure (Vue RIS/PACS, Infinitt CPACS) at 99% uptime</li>
-      <li>Supported secure rollout of clinical AI projects: Sensecare AI, Annalise AI, Teamplay AI</li>
-      <li>Implemented authentication and authorisation policies for 200+ radiology staff</li>
-      <li>Monitored network logs for security-related DICOM transmission anomalies</li>
-      <li>Patch management and vulnerability remediation for medical imaging servers</li>
-    </ul>
-  </div>
+  <div class="timeline">
 
-  <div class="card">
-    <div class="card-header">
-      <div>
-        <div class="company">Philips Electronics Singapore — HCIS ASEAN</div>
-        <h3>Field Service Engineer</h3>
+    <div class="tl-item reveal reveal-delay-1">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-company">Redfacers</div>
+          <div class="tl-role">Cybersecurity Intern</div>
+        </div>
+        <div class="tl-period">2026 – Present · Singapore</div>
       </div>
-      <div class="period">Aug 2019 – Apr 2022 · Singapore</div>
+      <div class="tl-body">
+        <ul>
+          <li>Participating in real-world cybersecurity projects and security assessments under senior practitioners</li>
+          <li>Applying offensive security techniques from CEH training and CTF engagements in professional context</li>
+          <li>Completed Corelan Heap Masterclass (professional exploit development — heap overflow techniques)</li>
+        </ul>
+      </div>
     </div>
-    <ul>
-      <li>Managed mission-critical healthcare IT infrastructure for SingHealth and MINDEF (Singapore MoD)</li>
-      <li>Executed Nessus vulnerability scans and Windows OS hardening for RIS/PACS servers</li>
-      <li>Root cause analysis for complex server and imaging system failures</li>
-    </ul>
-  </div>
 
-  <div class="card">
-    <div class="card-header">
-      <div>
-        <div class="company">Carestream Health Singapore</div>
-        <h3>Service Support Executive</h3>
+    <div class="tl-item reveal reveal-delay-2">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-company">Parkway Hospitals Singapore</div>
+          <div class="tl-role">Imaging IT Specialist</div>
+        </div>
+        <div class="tl-period">Sep 2023 – Sep 2025</div>
       </div>
-      <div class="period">Nov 2018 – Jul 2019 · Singapore</div>
+      <div class="tl-body">
+        <ul>
+          <li>Managed critical radiology imaging infrastructure (Vue RIS/PACS, Infinitt CPACS) at 99% uptime</li>
+          <li>Supported secure rollout of clinical AI platforms: Sensecare AI, Annalise AI, Teamplay AI</li>
+          <li>Implemented authentication and authorisation for 200+ radiology staff</li>
+          <li>Monitored network logs for DICOM transmission anomalies; patch management and vulnerability remediation</li>
+        </ul>
+      </div>
     </div>
-    <p>RIS/PACS installation, L1/L2 support, UAT management for radiology imaging systems.</p>
-  </div>
 
-  <div class="card">
-    <div class="card-header">
-      <div>
-        <div class="company">Biz-Partner Group Co., Ltd — Myanmar</div>
-        <h3>Project Manager / Senior Service Engineer</h3>
+    <div class="tl-item reveal reveal-delay-3">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-company">Philips Electronics Singapore — HCIS ASEAN</div>
+          <div class="tl-role">Field Service Engineer</div>
+        </div>
+        <div class="tl-period">Aug 2019 – Apr 2022</div>
       </div>
-      <div class="period">Feb 2015 – Sep 2018</div>
+      <div class="tl-body">
+        <ul>
+          <li>Managed mission-critical healthcare IT for tier-1 clients: SingHealth and MINDEF (Singapore MoD)</li>
+          <li>Executed Nessus vulnerability scans and Windows OS hardening for RIS/PACS servers</li>
+          <li>Root cause analysis for complex enterprise server and imaging system failures</li>
+        </ul>
+      </div>
     </div>
-    <ul>
-      <li>Led healthcare solution deployments from kick-off to client acceptance</li>
-      <li>Serviced medical imaging equipment (DR, CR, X-Ray, Ultrasound) and EMR/PACS systems via DICOM/HL7</li>
-    </ul>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-company">Carestream Health Singapore</div>
+          <div class="tl-role">Service Support Executive</div>
+        </div>
+        <div class="tl-period">Nov 2018 – Jul 2019</div>
+      </div>
+      <div class="tl-body">
+        <p>RIS/PACS installation, L1/L2 support, and UAT management for radiology imaging systems.</p>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-company">Biz-Partner Group Co., Ltd — Myanmar</div>
+          <div class="tl-role">Project Manager / Senior Service Engineer</div>
+        </div>
+        <div class="tl-period">Feb 2015 – Sep 2018</div>
+      </div>
+      <div class="tl-body">
+        <ul>
+          <li>Led healthcare IT solution deployments from kick-off through client acceptance</li>
+          <li>Serviced medical imaging equipment (DR, CR, X-Ray, Ultrasound) with EMR/PACS integration</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -519,97 +757,90 @@
 
 <!-- ─── PROJECTS ───────────────────────────────────────── -->
 <section id="projects">
-  <div class="section-label">Portfolio</div>
-  <h2>Security Projects</h2>
+  <div class="reveal">
+    <div class="section-label">portfolio</div>
+    <h2>Security Projects</h2>
+  </div>
 
   <div class="projects-grid">
 
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-1">
+      <span class="project-icon">🤖</span>
       <h3>Mr. Robot CTF — Full Root Compromise</h3>
-      <p>
-        Black-box penetration test of a WordPress server (TryHackMe). Chained WordPress brute force
-        → theme editor RCE → MD5 hash crack → SUID nmap privesc to root. Full VAPT report with CVSS scoring.
-      </p>
+      <div class="project-result">✓ root@mrrobot — all 3 keys retrieved</div>
+      <p>Black-box penetration test of a WordPress server. Chained WordPress credential brute force → theme editor RCE (PHP reverse shell injection) → MD5 hash cracking → SUID nmap privesc to root. Full VAPT report with CVSS 3.1 scoring.</p>
       <div class="tag-row">
         <span class="tag">nmap</span>
         <span class="tag">Hydra</span>
         <span class="tag">WordPress</span>
         <span class="tag">hashcat</span>
-        <span class="tag green">Root</span>
+        <span class="tag green">Root ✓</span>
       </div>
     </div>
 
-    <div class="project-card">
-      <h3>HackPark CTF — Windows Server Compromise</h3>
-      <p>
-        Exploited CVE-2019-6714 (BlogEngine.NET RCE) via Metasploit. Escalated privileges to SYSTEM
-        via insecure scheduled task (WinPEAS discovery). Full VAPT report produced.
-      </p>
+    <div class="project-card reveal reveal-delay-2">
+      <span class="project-icon">🎡</span>
+      <h3>HackPark CTF — Windows SYSTEM Compromise</h3>
+      <div class="project-result">✓ NT AUTHORITY\SYSTEM</div>
+      <p>Exploited CVE-2019-6714 (BlogEngine.NET 3.3.6 RCE) via Metasploit. Escalated to SYSTEM using insecure scheduled task discovered via WinPEAS. Full VAPT report produced.</p>
       <div class="tag-row">
         <span class="tag">Metasploit</span>
         <span class="tag">Burp Suite</span>
         <span class="tag">WinPEAS</span>
-        <span class="tag">CVE-2019-6714</span>
-        <span class="tag green">SYSTEM</span>
+        <span class="tag yellow">CVE-2019-6714</span>
+        <span class="tag green">SYSTEM ✓</span>
       </div>
     </div>
 
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-3">
+      <span class="project-icon">🏠</span>
       <h3>Home Cybersecurity Lab</h3>
-      <p>
-        Self-hosted security lab: Dell OptiPlex running Proxmox hypervisor, Kali Linux VM, VMware
-        environments for malware analysis and vulnerability testing. n8n automation server with
-        Cloudflare tunnel for secure remote access.
-      </p>
+      <div class="project-result">✓ Self-hosted & operational</div>
+      <p>Dell OptiPlex running Proxmox hypervisor with Kali Linux VM for penetration testing and malware analysis. n8n automation server on Docker with Cloudflare Tunnel for secure remote access anywhere.</p>
       <div class="tag-row">
         <span class="tag">Proxmox</span>
         <span class="tag">Kali Linux</span>
-        <span class="tag">VMware</span>
         <span class="tag">Docker</span>
         <span class="tag">n8n</span>
+        <span class="tag purple">Cloudflare</span>
       </div>
     </div>
 
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-1">
+      <span class="project-icon">💥</span>
       <h3>Corelan Heap Masterclass</h3>
-      <p>
-        Professional exploit development training — heap overflow techniques, use-after-free,
-        heap spray, and advanced Windows exploitation. Completed under Redfacers programme.
-      </p>
+      <div class="project-result">✓ Completed — Jan 2026</div>
+      <p>Professional exploit development training covering heap overflow techniques, use-after-free, heap spray, and advanced Windows binary exploitation with WinDbg. Completed under Redfacers programme.</p>
       <div class="tag-row">
-        <span class="tag red">Heap Exploitation</span>
-        <span class="tag">Windows</span>
-        <span class="tag">x86 Assembly</span>
+        <span class="tag yellow">Heap Exploitation</span>
+        <span class="tag">Windows x86</span>
         <span class="tag">WinDbg</span>
+        <span class="tag">Assembly</span>
       </div>
     </div>
 
-    <div class="project-card">
-      <h3>Combined VAPT Report — HackPark &amp; Mr. Robot</h3>
-      <p>
-        Professional-grade dual-target VAPT report covering 8 findings across 2 systems.
-        Includes CVSS 3.1 vectors, exploitation evidence, attack timelines, and remediation guidance.
-        Written to professional pentesting report standard.
-      </p>
+    <div class="project-card reveal reveal-delay-2">
+      <span class="project-icon">📋</span>
+      <h3>Combined VAPT Report — Dual Target</h3>
+      <div class="project-result">✓ 8 findings, 2 systems</div>
+      <p>Professional-grade dual-target VAPT report covering HackPark and Mr. Robot — 8 total findings, CVSS 3.1 vectors, exploitation evidence, attack timelines, and remediation guidance to pentesting report standard.</p>
       <div class="tag-row">
         <span class="tag">VAPT</span>
         <span class="tag">CVSS 3.1</span>
-        <span class="tag">Reporting</span>
+        <span class="tag green">Report Writing</span>
       </div>
     </div>
 
-    <div class="project-card">
-      <h3>Medical Imaging Security (Healthcare IT)</h3>
-      <p>
-        11 years securing DICOM/HL7 infrastructure at Parkway Hospitals and Philips Electronics.
-        Managed PHI-containing systems for MINDEF and SingHealth. Nessus scanning, OS hardening,
-        PACS subnet segmentation.
-      </p>
+    <div class="project-card reveal reveal-delay-3">
+      <span class="project-icon">🏥</span>
+      <h3>Healthcare Infrastructure Security</h3>
+      <div class="project-result">✓ 11 years operational</div>
+      <p>Securing DICOM/HL7 infrastructure at Parkway Hospitals and Philips Electronics for MINDEF and SingHealth. PHI protection, Nessus scanning, OS hardening, and PACS subnet segmentation.</p>
       <div class="tag-row">
         <span class="tag">DICOM Security</span>
         <span class="tag">Nessus</span>
-        <span class="tag">PHI</span>
-        <span class="tag">Hardening</span>
+        <span class="tag">PHI / HIPAA</span>
+        <span class="tag green">MINDEF · SingHealth</span>
       </div>
     </div>
 
@@ -620,69 +851,77 @@
 
 <!-- ─── SKILLS ─────────────────────────────────────────── -->
 <section id="skills">
-  <div class="section-label">Technical</div>
-  <h2>Skills</h2>
+  <div class="reveal">
+    <div class="section-label">technical</div>
+    <h2>Skills</h2>
+  </div>
 
-  <div class="skills-grid">
-    <div class="skill-group">
+  <div class="skills-grid" id="skills-grid">
+
+    <div class="skill-group reveal reveal-delay-1">
       <h4>Offensive Security</h4>
       <ul>
-        <li>Penetration Testing</li>
-        <li>Vulnerability Assessment</li>
-        <li>Web App Exploitation</li>
-        <li>Privilege Escalation</li>
-        <li>Exploit Development</li>
+        <li class="skill-item">Penetration Testing<div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></li>
+        <li class="skill-item">Vulnerability Assessment<div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></li>
+        <li class="skill-item">Web App Exploitation<div class="skill-bar-wrap"><div class="skill-bar" data-w="70"></div></div></li>
+        <li class="skill-item">Privilege Escalation<div class="skill-bar-wrap"><div class="skill-bar" data-w="75"></div></div></li>
+        <li class="skill-item">Exploit Development<div class="skill-bar-wrap"><div class="skill-bar" data-w="55"></div></div></li>
       </ul>
     </div>
-    <div class="skill-group">
+
+    <div class="skill-group reveal reveal-delay-2">
       <h4>Tools</h4>
       <ul>
-        <li>nmap / gobuster / ffuf</li>
-        <li>Metasploit Framework</li>
-        <li>Burp Suite</li>
-        <li>Hydra / hashcat</li>
-        <li>Nessus / WinPEAS / LinPEAS</li>
+        <li class="skill-item">nmap / gobuster / ffuf<div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></li>
+        <li class="skill-item">Metasploit Framework<div class="skill-bar-wrap"><div class="skill-bar" data-w="72"></div></div></li>
+        <li class="skill-item">Burp Suite<div class="skill-bar-wrap"><div class="skill-bar" data-w="68"></div></div></li>
+        <li class="skill-item">Hydra / hashcat<div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></li>
+        <li class="skill-item">Nessus / WinPEAS<div class="skill-bar-wrap"><div class="skill-bar" data-w="78"></div></div></li>
       </ul>
     </div>
-    <div class="skill-group">
+
+    <div class="skill-group reveal reveal-delay-3">
       <h4>Infrastructure</h4>
       <ul>
-        <li>Kali Linux</li>
-        <li>VMware / Proxmox</li>
-        <li>Docker / n8n</li>
-        <li>Windows Server</li>
-        <li>Cloudflare / GitHub Pages</li>
+        <li class="skill-item">Kali Linux<div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></li>
+        <li class="skill-item">VMware / Proxmox<div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></li>
+        <li class="skill-item">Docker / n8n<div class="skill-bar-wrap"><div class="skill-bar" data-w="70"></div></div></li>
+        <li class="skill-item">Windows Server<div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></li>
+        <li class="skill-item">Cloudflare<div class="skill-bar-wrap"><div class="skill-bar" data-w="72"></div></div></li>
       </ul>
     </div>
-    <div class="skill-group">
+
+    <div class="skill-group reveal reveal-delay-1">
       <h4>Reporting & Standards</h4>
       <ul>
-        <li>VAPT Report Writing</li>
-        <li>CVSS 3.1 Scoring</li>
-        <li>MITRE ATT&amp;CK</li>
-        <li>OWASP Top 10</li>
-        <li>PHI / HIPAA Awareness</li>
+        <li class="skill-item">VAPT Report Writing<div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></li>
+        <li class="skill-item">CVSS 3.1 Scoring<div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></li>
+        <li class="skill-item">OWASP Top 10<div class="skill-bar-wrap"><div class="skill-bar" data-w="75"></div></div></li>
+        <li class="skill-item">MITRE ATT&amp;CK<div class="skill-bar-wrap"><div class="skill-bar" data-w="60"></div></div></li>
+        <li class="skill-item">PHI / HIPAA<div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></li>
       </ul>
     </div>
-    <div class="skill-group">
+
+    <div class="skill-group reveal reveal-delay-2">
       <h4>Scripting</h4>
       <ul>
-        <li>Bash / Shell Scripting</li>
-        <li>Python (basic)</li>
-        <li>HTML / CSS / JavaScript</li>
-        <li>SQL</li>
+        <li class="skill-item">Bash / Shell<div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></li>
+        <li class="skill-item">Python<div class="skill-bar-wrap"><div class="skill-bar" data-w="55"></div></div></li>
+        <li class="skill-item">HTML / CSS / JS<div class="skill-bar-wrap"><div class="skill-bar" data-w="72"></div></div></li>
+        <li class="skill-item">SQL<div class="skill-bar-wrap"><div class="skill-bar" data-w="78"></div></div></li>
       </ul>
     </div>
-    <div class="skill-group">
+
+    <div class="skill-group reveal reveal-delay-3">
       <h4>Domain Expertise</h4>
       <ul>
-        <li>DICOM Protocol Security</li>
-        <li>HL7 Integration</li>
-        <li>RIS / PACS Systems</li>
-        <li>Medical Device Security</li>
-        <li>Clinical AI Infrastructure</li>
+        <li class="skill-item">DICOM Security<div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></li>
+        <li class="skill-item">RIS / PACS Systems<div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></li>
+        <li class="skill-item">Medical Device Sec<div class="skill-bar-wrap"><div class="skill-bar" data-w="78"></div></div></li>
+        <li class="skill-item">HL7 Integration<div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></li>
       </ul>
     </div>
+
   </div>
 </section>
 
@@ -690,40 +929,67 @@
 
 <!-- ─── CERTIFICATIONS ─────────────────────────────────── -->
 <section id="certifications">
-  <div class="section-label">Credentials</div>
-  <h2>Education &amp; Certifications</h2>
+  <div class="reveal">
+    <div class="section-label">credentials</div>
+    <h2>Education &amp; Certifications</h2>
+  </div>
 
   <div class="cert-grid">
-    <div class="cert-card">
-      <div class="cert-status inprogress">In Progress</div>
-      <h4>Certified Ethical Hacker (CEH)</h4>
-      <p>MAGES Institute of Excellence · 2025–Present</p>
+
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon">🎯</div>
+      <div>
+        <div class="cert-status inprogress">In Progress</div>
+        <h4>Certified Ethical Hacker (CEH)</h4>
+        <p>MAGES Institute of Excellence · 2025–Present</p>
+      </div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status">Completed</div>
-      <h4>Heap Masterclass — Professional Exploit Development</h4>
-      <p>Corelan × Redfacers · Jan 2026</p>
+
+    <div class="cert-card reveal reveal-delay-2">
+      <div class="cert-icon">💣</div>
+      <div>
+        <div class="cert-status">Completed</div>
+        <h4>Heap Masterclass — Exploit Development</h4>
+        <p>Corelan × Redfacers · Jan 2026</p>
+      </div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status">Completed</div>
-      <h4>Microsoft Certified Professional (MCP)</h4>
-      <p>SQL Database Administration · Microsoft</p>
+
+    <div class="cert-card reveal reveal-delay-3">
+      <div class="cert-icon">🗄️</div>
+      <div>
+        <div class="cert-status">Completed</div>
+        <h4>Microsoft Certified Professional (MCP)</h4>
+        <p>SQL Database Administration · Microsoft</p>
+      </div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status">Completed</div>
-      <h4>MTA: Windows Server Administration Fundamentals</h4>
-      <p>NICF · Microsoft</p>
+
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon">🖥️</div>
+      <div>
+        <div class="cert-status">Completed</div>
+        <h4>MTA: Windows Server Administration</h4>
+        <p>NICF · Microsoft</p>
+      </div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status">Completed</div>
-      <h4>Higher Diploma in Information Technology</h4>
-      <p>Major in Web Development</p>
+
+    <div class="cert-card reveal reveal-delay-2">
+      <div class="cert-icon">🎓</div>
+      <div>
+        <div class="cert-status">Completed</div>
+        <h4>Higher Diploma in IT — Web Development</h4>
+        <p>Information Technology · Major in Web Dev</p>
+      </div>
     </div>
-    <div class="cert-card">
-      <div class="cert-status">Completed</div>
-      <h4>Bachelor of Arts</h4>
-      <p>Major in English</p>
+
+    <div class="cert-card reveal reveal-delay-3">
+      <div class="cert-icon">📖</div>
+      <div>
+        <div class="cert-status">Completed</div>
+        <h4>Bachelor of Arts</h4>
+        <p>Major in English</p>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -731,32 +997,194 @@
 
 <!-- ─── CONTACT ─────────────────────────────────────────── -->
 <section id="contact">
-  <div class="section-label">Get in Touch</div>
-  <h2>Contact</h2>
+  <div class="reveal">
+    <div class="section-label">get in touch</div>
+    <h2>Contact</h2>
+  </div>
 
   <div class="contact-grid">
-    <a class="contact-item" href="mailto:ivan@ivanthan.uk">
-      <div class="label">Email</div>
+    <a class="contact-item reveal reveal-delay-1" href="mailto:ivan@ivanthan.uk">
+      <div class="label">📧 Email</div>
       <div class="value">ivan@ivanthan.uk</div>
     </a>
-    <a class="contact-item" href="https://linkedin.com/in/ivan3890" target="_blank" rel="noopener">
-      <div class="label">LinkedIn</div>
+    <a class="contact-item reveal reveal-delay-2" href="https://linkedin.com/in/ivan3890" target="_blank" rel="noopener">
+      <div class="label">💼 LinkedIn</div>
       <div class="value">linkedin.com/in/ivan3890</div>
     </a>
-    <a class="contact-item" href="https://github.com/r3b3Lli0uskID" target="_blank" rel="noopener">
-      <div class="label">GitHub</div>
+    <a class="contact-item reveal reveal-delay-3" href="https://github.com/r3b3Lli0uskID" target="_blank" rel="noopener">
+      <div class="label">💻 GitHub</div>
       <div class="value">r3b3Lli0uskID</div>
     </a>
-    <div class="contact-item">
-      <div class="label">Location</div>
+    <div class="contact-item reveal reveal-delay-1">
+      <div class="label">📍 Location</div>
       <div class="value">Singapore</div>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>Than Htet (Ivan) · ivan@ivanthan.uk · Singapore · Built with HTML/CSS · Hosted on GitHub Pages</p>
+  <p><span class="footer-mono">ivan@ivanthan.uk</span> · Singapore · Built with HTML/CSS · Hosted on GitHub Pages</p>
 </footer>
+
+<!-- ─── SCRIPTS ────────────────────────────────────────── -->
+<script>
+/* ── Network node background ── */
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], RAF;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Node() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - .5) * .4;
+    this.vy = (Math.random() - .5) * .4;
+    this.r  = Math.random() * 2 + 1;
+  }
+
+  Node.prototype.update = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > W) this.vx *= -1;
+    if (this.y < 0 || this.y > H) this.vy *= -1;
+  };
+
+  function init() {
+    nodes = [];
+    const count = Math.min(80, Math.floor(W * H / 14000));
+    for (let i = 0; i < count; i++) nodes.push(new Node());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const maxDist = 140;
+
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].update();
+      ctx.beginPath();
+      ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(59,130,246,.5)';
+      ctx.fill();
+
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < maxDist) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(59,130,246,${0.18 * (1 - d / maxDist)})`;
+          ctx.lineWidth = .8;
+          ctx.stroke();
+        }
+      }
+    }
+    RAF = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize(); init(); draw();
+})();
+
+/* ── Terminal typewriter ── */
+(function() {
+  const lines = [
+    { text: '┌──(kali㉿ivan)-[~]', cls: 't-prompt' },
+    { text: '└─$ nmap -Pn -sC -sV 10.49.164.182', cls: 't-cmd' },
+    { text: 'PORT   STATE SERVICE', cls: 't-comment' },
+    { text: '22/tcp open  ssh', cls: 't-output' },
+    { text: '80/tcp open  http (WordPress 4.3.1)', cls: 't-output' },
+    { text: '', cls: '' },
+    { text: '└─$ curl /robots.txt', cls: 't-cmd' },
+    { text: 'key-1-of-3.txt  ← found', cls: 't-warn' },
+    { text: 'fsocity.dic     ← wordlist', cls: 't-warn' },
+    { text: '', cls: '' },
+    { text: '└─$ whoami', cls: 't-cmd' },
+    { text: 'root', cls: 't-output' },
+    { text: '# Mission complete ✓', cls: 't-comment' },
+  ];
+
+  const body = document.getElementById('terminal-body');
+  let li = 0, ci = 0;
+
+  function typeLine() {
+    if (li >= lines.length) return;
+    const line = lines[li];
+
+    if (ci === 0) {
+      const span = document.createElement('div');
+      span.className = line.cls;
+      span.id = 'cur-line';
+      body.appendChild(span);
+    }
+
+    const el = document.getElementById('cur-line');
+    if (ci < line.text.length) {
+      el.textContent = line.text.slice(0, ci + 1);
+      ci++;
+      setTimeout(typeLine, line.cls === 't-comment' ? 18 : 38);
+    } else {
+      el.id = '';
+      li++; ci = 0;
+      setTimeout(typeLine, li < lines.length && lines[li].text === '' ? 60 : 180);
+    }
+  }
+
+  setTimeout(typeLine, 800);
+})();
+
+/* ── Scroll reveal ── */
+(function() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+/* ── Skill bars on reveal ── */
+(function() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar').forEach(bar => {
+          bar.style.width = bar.dataset.w + '%';
+        });
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.skill-group').forEach(g => obs.observe(g));
+})();
+
+/* ── Counter animation ── */
+(function() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.count);
+      const suffix = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+      let current = 0;
+      const step = Math.ceil(target / 30);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.innerHTML = current + suffix;
+        if (current >= target) clearInterval(timer);
+      }, 40);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach(el => obs.observe(el));
+})();
+</script>
 
 </body>
 </html>
