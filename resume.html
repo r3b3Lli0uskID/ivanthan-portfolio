@@ -354,24 +354,17 @@
     @media print {
       body { background: none; }
       .page { margin: 0; box-shadow: none; width: 210mm; }
-      .btn-group { display: none; }
+      .print-btn { display: none; }
       .header { background: var(--navy) !important; }
       .sidebar { background: var(--navy2) !important; }
       .bar-bg { background: rgba(255,255,255,.15) !important; }
       .bar-fill { background: var(--soft) !important; }
     }
 
-    /* ─── ACTION BUTTONS ─────────────────────────── */
-    .btn-group {
+    /* ─── PRINT BUTTON ───────────────────────────── */
+    .print-btn {
       position: fixed;
       bottom: 2rem; right: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: .6rem;
-      z-index: 999;
-    }
-
-    .print-btn {
       background: var(--navy);
       color: var(--white);
       border: none;
@@ -387,29 +380,11 @@
 
     .print-btn:hover { background: var(--navy2); }
 
-    .docx-btn {
-      background: var(--soft);
-      color: var(--navy);
-      border: none;
-      padding: .7rem 1.4rem;
-      border-radius: 6px;
-      font-family: 'Fjalla One', sans-serif;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0,0,0,.2);
-      letter-spacing: .06em;
-      transition: background .2s;
-    }
-
-    .docx-btn:hover { background: #6a9cbf; color: var(--white); }
   </style>
 </head>
 <body>
 
-<div class="btn-group">
-  <button class="print-btn" onclick="window.print()">PRINT / SAVE PDF</button>
-  <button class="docx-btn" onclick="saveDocx()">SAVE AS DOCX</button>
-</div>
+<button class="print-btn" onclick="window.print()">PRINT / SAVE PDF</button>
 
 <div class="page">
 
@@ -710,23 +685,5 @@
   </div><!-- /body -->
 </div><!-- /page -->
 
-<script src="https://unpkg.com/html-docx-js@0.3.1/dist/html-docx.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-<script>
-function saveDocx() {
-  // Grab the full page HTML with embedded styles
-  var styles = Array.from(document.querySelectorAll('style'))
-    .map(s => '<style>' + s.innerHTML + '</style>').join('');
-
-  var pageHtml = document.querySelector('.page').outerHTML;
-
-  var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
-    '<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">' +
-    styles + '</head><body>' + pageHtml + '</body></html>';
-
-  var blob = htmlDocx.asBlob(fullHtml);
-  saveAs(blob, 'Ivan_Than_Resume.docx');
-}
-</script>
 </body>
 </html>
