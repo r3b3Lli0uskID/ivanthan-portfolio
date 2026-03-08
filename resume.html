@@ -351,6 +351,8 @@
     }
 
     /* ─── PRINT ──────────────────────────────────── */
+    @page { size: A4; margin: 0; }
+
     @media print {
       body { background: none; }
       .page { margin: 0; box-shadow: none; width: 210mm; }
@@ -359,6 +361,7 @@
       .sidebar { background: var(--navy2) !important; }
       .bar-bg { background: rgba(255,255,255,.15) !important; }
       .bar-fill { background: var(--soft) !important; }
+      .biz-partner-break { break-before: page; page-break-before: always; }
     }
 
     /* ─── PRINT BUTTON ───────────────────────────── */
@@ -616,7 +619,7 @@
         </ul>
       </div>
 
-      <div class="work-entry">
+      <div class="work-entry biz-partner-break">
         <div class="work-header">
           <div class="work-employer">Biz-Partner Group Co., Ltd — Myanmar</div>
           <div class="work-period">Feb 2015 – Sep 2018</div>
