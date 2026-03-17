@@ -9,19 +9,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0a0e17;
+      --bg:      #0a0e17;
       --surface: #111827;
-      --surface2: #1a2235;
-      --border: #1f2d3d;
-      --accent: #1770b5;
+      --surface2:#1a2235;
+      --border:  #1f2d3d;
+      --accent:  #1770b5;
       --accent2: #10b981;
-      --yellow: #f59e0b;
-      --warn: #ef4444;
-      --muted: #6b7280;
-      --text: #d1d5db;
+      --yellow:  #f59e0b;
+      --warn:    #ef4444;
+      --muted:   #6b7280;
+      --text:    #d1d5db;
       --heading: #f9fafb;
-      --navy: #1F3763;
-      --navy2: #2F5496;
+      --navy:    #1F3763;
+      --navy2:   #2F5496;
+    }
+
+    /* CP2077 — Dark Future (AP6YC/dark-future VSCode palette) */
+    html[data-theme="cyberpunk"] {
+      --bg:      #16171D;
+      --surface: #12161a;
+      --surface2:#1a1e27;
+      --border:  #3B4048;
+      --accent:  #C792EA;
+      --accent2: #89DDFF;
+      --yellow:  #F78C6C;
+      --warn:    #FF5370;
+      --muted:   #546E7A;
+      --text:    #eeffff;
+      --heading: #ffffff;
+      --navy:    #0e1117;
+      --navy2:   #1a1e27;
+    }
+
+    /* Future — Tron Legacy (ianyepan/tron-legacy-emacs-theme palette) */
+    html[data-theme="future"] {
+      --bg:      #000000;
+      --surface: #17181b;
+      --surface2:#1e2530;
+      --border:  #3D5666;
+      --accent:  #8Fd4FF;
+      --accent2: #DEB45B;
+      --yellow:  #DEB45B;
+      --warn:    #FF7DBB;
+      --muted:   #5A7387;
+      --text:    #B0CCDC;
+      --heading: #BBF0EF;
+      --navy:    #0d1520;
+      --navy2:   #1a2535;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,6 +67,60 @@
       font-family: 'Inter', -apple-system, sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background .4s ease, color .4s ease;
+    }
+
+    html[data-theme="cyberpunk"] body {
+      background: radial-gradient(ellipse at 25% 40%, #1e1a2e 0%, #16171D 60%),
+                  radial-gradient(ellipse at 80% 70%, #12161a 0%, #16171D 70%);
+    }
+
+    html[data-theme="future"] body {
+      background: radial-gradient(ellipse at 30% 50%, #0a1520 0%, #000000 55%),
+                  radial-gradient(ellipse at 75% 25%, #070e18 0%, #000000 60%);
+    }
+
+    /* scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
+
+    /* Dark Future — subtle purple scanlines */
+    html[data-theme="cyberpunk"] body::after {
+      opacity: 1;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(199,146,234,.04) 3px,
+        rgba(199,146,234,.04) 4px
+      );
+    }
+
+    /* Tron — Tron-blue circuit grid */
+    html[data-theme="future"] body::after {
+      opacity: 1;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 100px,
+          rgba(143,212,255,.05) 100px,
+          rgba(143,212,255,.05) 101px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 100px,
+          rgba(143,212,255,.05) 100px,
+          rgba(143,212,255,.05) 101px
+        );
     }
 
     /* ─── CANVAS BACKGROUND ─────────────────────────── */
@@ -43,6 +131,40 @@
       z-index: 0;
       opacity: 0.35;
       pointer-events: none;
+      transition: opacity .4s ease;
+    }
+
+    html[data-theme="cyberpunk"] #bg-canvas { opacity: 0.55; }
+    html[data-theme="future"]    #bg-canvas { opacity: 0.60; }
+
+    /* ─── THEME TOGGLE ───────────────────────────────── */
+    .theme-btn {
+      position: fixed;
+      bottom: 2rem; left: 2rem;
+      background: var(--surface);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: .55rem 1rem;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      cursor: pointer;
+      z-index: 1000;
+      letter-spacing: .06em;
+      transition: border-color .3s, color .3s, box-shadow .3s, background .3s;
+      box-shadow: 0 0 10px rgba(23,112,181,.2);
+    }
+
+    html[data-theme="cyberpunk"] .theme-btn {
+      color: #C792EA;
+      border-color: #C792EA;
+      box-shadow: 0 0 12px rgba(199,146,234,.35);
+    }
+
+    html[data-theme="future"] .theme-btn {
+      color: #8Fd4FF;
+      border-color: #8Fd4FF;
+      box-shadow: 0 0 12px rgba(143,212,255,.35);
     }
 
     /* ─── NAV ─────────────────────────────────────────── */
@@ -612,26 +734,37 @@
     .cert-card p  { font-size: .8rem; color: var(--muted); }
 
     /* ─── CONTACT ─────────────────────────────────────── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
+    .contact-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 1rem 0;
     }
 
-    .contact-item {
+    .contact-icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
       text-decoration: none;
-      transition: border-color .5s ease-in-out, transform .5s ease-in-out;
-      display: block;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      color: var(--muted);
     }
 
-    .contact-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .contact-icon-btn svg { width: 32px; height: 32px; transition: color .25s ease; }
 
-    .contact-item .label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .4rem; }
-    .contact-item .value { font-size: .9rem; color: var(--heading); font-weight: 500; }
+    .contact-icon-btn:hover { transform: translateY(-4px); }
+    .contact-icon-btn.email:hover  { border-color: var(--accent);  box-shadow: 0 8px 24px rgba(23,112,181,.35); color: var(--accent); }
+    .contact-icon-btn.li:hover     { border-color: #0a66c2; box-shadow: 0 8px 24px rgba(10,102,194,.35); color: #0a66c2; }
+    .contact-icon-btn.gh:hover     { border-color: #e6edf3; box-shadow: 0 8px 24px rgba(230,237,243,.2);  color: #e6edf3; }
+    .contact-icon-btn.loc          { cursor: default; pointer-events: none; }
+    .contact-icon-btn.loc svg      { color: var(--accent2); }
 
     /* ─── FOOTER ──────────────────────────────────────── */
     footer {
@@ -660,6 +793,8 @@
 
 <!-- Animated network background -->
 <canvas id="bg-canvas"></canvas>
+
+<button class="theme-btn" id="theme-toggle" title="Toggle theme">◈ DARK FUTURE</button>
 
 <!-- ─── NAV ─────────────────────────────────────────── -->
 <nav>
@@ -1123,28 +1258,58 @@
     <h2>Contact</h2>
   </div>
 
-  <div class="contact-grid">
-    <a class="contact-item reveal reveal-delay-1" href="mailto:ivan@ivanthan.uk">
-      <div class="label">📧 Email</div>
-      <div class="value">ivan@ivanthan.uk</div>
+  <div class="contact-icons reveal">
+
+    <!-- Email -->
+    <a class="contact-icon-btn email" href="mailto:ivan@ivanthan.uk" title="ivan@ivanthan.uk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="m2 7 10 7 10-7"/>
+      </svg>
     </a>
-    <a class="contact-item reveal reveal-delay-2" href="https://linkedin.com/in/ivan3890" target="_blank" rel="noopener">
-      <div class="label">💼 LinkedIn</div>
-      <div class="value">linkedin.com/in/ivan3890</div>
+
+    <!-- LinkedIn -->
+    <a class="contact-icon-btn li" href="https://linkedin.com/in/ivan3890" target="_blank" rel="noopener" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
     </a>
-    <a class="contact-item reveal reveal-delay-3" href="https://github.com/r3b3Lli0uskID" target="_blank" rel="noopener">
-      <div class="label">💻 GitHub</div>
-      <div class="value">r3b3Lli0uskID</div>
+
+    <!-- GitHub -->
+    <a class="contact-icon-btn gh" href="https://github.com/r3b3Lli0uskID" target="_blank" rel="noopener" title="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+      </svg>
     </a>
-    <div class="contact-item reveal reveal-delay-1">
-      <div class="label">📍 Location</div>
-      <div class="value">Singapore</div>
+
+    <!-- Location — Singapore Flag -->
+    <div class="contact-icon-btn loc" title="Singapore">
+      <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" style="width:42px;height:auto;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.08)">
+        <defs>
+          <clipPath id="sg-clip"><rect width="30" height="20" rx="2"/></clipPath>
+          <path id="sg-star" d="M0,-1.15 0.277,-0.381 1.094,-0.356 0.448,0.145 0.676,0.932 0,0.470 -0.676,0.932 -0.448,0.145 -1.094,-0.356 -0.277,-0.381Z"/>
+        </defs>
+        <!-- White base -->
+        <rect width="30" height="20" rx="2" fill="white"/>
+        <!-- Red top half -->
+        <rect width="30" height="10" fill="#EF3340" clip-path="url(#sg-clip)"/>
+        <!-- Crescent moon -->
+        <circle cx="8.8" cy="5" r="3.2" fill="white"/>
+        <circle cx="10.5" cy="5" r="2.55" fill="#EF3340"/>
+        <!-- 5 stars in circle, centre (17.2, 5.1) radius 2.3 -->
+        <use href="#sg-star" transform="translate(17.2,2.8)  scale(1.05)" fill="white"/>
+        <use href="#sg-star" transform="translate(19.38,4.39) scale(1.05)" fill="white"/>
+        <use href="#sg-star" transform="translate(18.54,7.0)  scale(1.05)" fill="white"/>
+        <use href="#sg-star" transform="translate(15.86,7.0)  scale(1.05)" fill="white"/>
+        <use href="#sg-star" transform="translate(15.02,4.39) scale(1.05)" fill="white"/>
+      </svg>
     </div>
+
   </div>
 </section>
 
 <footer>
-  <p><span class="footer-mono">ivan@ivanthan.uk</span> · Singapore · Built with HTML/CSS · Hosted on GitHub Pages</p>
+  <p>Hosted on GitHub Pages</p>
 </footer>
 
 <!-- ─── SCRIPTS ────────────────────────────────────────── -->
@@ -1160,12 +1325,17 @@
     H = canvas.height = window.innerHeight;
   }
 
+  function getTheme() {
+    return document.documentElement.dataset.theme || 'default';
+  }
+
   function Node() {
-    this.x  = Math.random() * W;
-    this.y  = Math.random() * H;
-    this.vx = (Math.random() - .5) * .4;
-    this.vy = (Math.random() - .5) * .4;
-    this.r  = Math.random() * 2 + 1;
+    this.x    = Math.random() * W;
+    this.y    = Math.random() * H;
+    this.vx   = (Math.random() - .5) * .4;
+    this.vy   = (Math.random() - .5) * .4;
+    this.r    = Math.random() * 2 + 1;
+    this.cyan = Math.random() > 0.42;
   }
 
   Node.prototype.update = function() {
@@ -1187,9 +1357,18 @@
 
     for (let i = 0; i < nodes.length; i++) {
       nodes[i].update();
+      const theme = getTheme();
       ctx.beginPath();
       ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(23,112,181,.5)';
+      if (theme === 'cyberpunk') {
+        /* Dark Future: purple #C792EA + cyan #89DDFF */
+        ctx.fillStyle = nodes[i].cyan ? 'rgba(199,146,234,.65)' : 'rgba(137,221,255,.55)';
+      } else if (theme === 'future') {
+        /* Tron: electric blue #8Fd4FF + gold #DEB45B */
+        ctx.fillStyle = nodes[i].cyan ? 'rgba(143,212,255,.75)' : 'rgba(222,180,91,.65)';
+      } else {
+        ctx.fillStyle = 'rgba(23,112,181,.5)';
+      }
       ctx.fill();
 
       for (let j = i + 1; j < nodes.length; j++) {
@@ -1197,11 +1376,18 @@
         const dy = nodes[i].y - nodes[j].y;
         const d  = Math.sqrt(dx*dx + dy*dy);
         if (d < maxDist) {
+          const alpha = (theme === 'default' ? 0.18 : 0.22) * (1 - d / maxDist);
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(23,112,181,${0.18 * (1 - d / maxDist)})`;
-          ctx.lineWidth = .8;
+          if (theme === 'cyberpunk') {
+            ctx.strokeStyle = nodes[i].cyan ? `rgba(199,146,234,${alpha})` : `rgba(137,221,255,${alpha})`;
+          } else if (theme === 'future') {
+            ctx.strokeStyle = nodes[i].cyan ? `rgba(143,212,255,${alpha})` : `rgba(222,180,91,${alpha})`;
+          } else {
+            ctx.strokeStyle = `rgba(23,112,181,${alpha})`;
+          }
+          ctx.lineWidth = .7;
           ctx.stroke();
         }
       }
@@ -1211,6 +1397,21 @@
 
   window.addEventListener('resize', () => { resize(); init(); });
   resize(); init(); draw();
+})();
+
+/* ── Theme toggle ── */
+(function() {
+  const btn  = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const cycle = ['default', 'cyberpunk', 'future'];
+  const labels = { default: '◈ DARK FUTURE', cyberpunk: '◈ TRON', future: '◈ DEFAULT' };
+
+  btn.addEventListener('click', function() {
+    const cur  = html.dataset.theme || 'default';
+    const next = cycle[(cycle.indexOf(cur) + 1) % cycle.length];
+    html.dataset.theme = next === 'default' ? '' : next;
+    btn.textContent = labels[next] || labels['default'];
+  });
 })();
 
 /* ── Terminal typewriter ── */
